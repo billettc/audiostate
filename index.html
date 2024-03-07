@@ -1,0 +1,51 @@
+<html lang="en" class="sl-theme-dark" style="color: var(--sl-color-neutral-700); font-family: var(--sl-font-sans); ">
+<head>
+    <title>Home</title>
+    <link rel="stylesheet" href="./shoelace/themes/dark.css"/>
+    <script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.14.0/cdn/shoelace.js"></script>
+
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/highcharts-more.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script src="https://code.highcharts.com/modules/export-data.js"></script>
+    <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+
+
+    <script type="module" src="audio-stats.js"></script>
+    <script type="module" src="vu-meter.js"></script>
+    <script src="./vue/vue.js"></script>
+
+    <style>
+        .highcharts-background {
+            fill: var(--sl-color-neutral-200);
+        }
+    </style>
+
+</head>
+
+
+<body class="sl-theme-dark">
+<div class="sl-theme-dark" style="display: flex; flex: 1; flex-direction: column;">
+    <div style="width: 100%;">
+        <audio-stats class="sl-theme-dark" name="toto"></audio-stats>
+        <div style="display: flex; flex-direction: row; margin: var(--sl-spacing-medium)">
+            <div style="margin: var(--sl-spacing-medium)">
+                <img alt="" src="./images/ab6761610000e5eb7c1c2fcf5a73dbfa60a40a18.jpeg" height="600px" width="600px"/>
+            </div>
+            <div style="flex:1; display: flex; flex-direction: column; ">
+                <div style="flex:1; display: flex; flex-direction: column; ">
+                    <h1>King Crimson</h1>
+                    <h2>In the court of the Crimson King</h2>
+                </div>
+            </div>
+        </div>
+
+        <sl-divider></sl-divider>
+        <div style="display: flex; flex: 1; flex-direction: row; align-items: end;">
+            <span id="container" style="flex: 1.25"></span>
+            <span id="container2" style="flex:2"></span>
+        </div>
+    </div>
+</div>
+</body>
+</html>
