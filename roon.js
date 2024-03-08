@@ -33,7 +33,7 @@ class RoonState extends LitElement {
             const zones = JSON.parse(event.data);
             for (const property in zones) {
                 const z = zones[property];
-                if (z.display_name === "Puntus II 12th") {
+                if (z.display_name === "Pontus II 12th") {
                     this.zone = z;
                 }
             }
@@ -78,7 +78,7 @@ class RoonState extends LitElement {
                         <div style="display: flex; align-items: center">
                             <label style="font-size: var(--sl-font-size-x-large)">${this.zone.display_name}</label>
                             <sl-badge variant="${this.zone.state === "playing" ? "success" : "primary"}"
-                                      style="padding-left: var(--sl-spacing-large)">${this.zone.state}
+                                      style="padding-left: var(--sl-spacing-large);font-size: var(--sl-font-size-large)">${this.zone.state}
                             </sl-badge>
                             <div style="flex: 1; padding-left: var(--sl-spacing-large)">
                                 <div style="display: flex; flex-grow: 1; ">

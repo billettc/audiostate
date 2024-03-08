@@ -36,7 +36,7 @@ const gaugeOptions = {
     // the value axis
     yAxis: {
         stops: [
-            [0, '#55BF3B'], // green
+            [0, '#rgb(39, 186, 253)'], // green
         ],
         lineWidth: 0,
         tickWidth: 0,

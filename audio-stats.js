@@ -305,7 +305,7 @@ export class AudioStats extends LitElement {
                     <div style="display: flex">
                         <sl-badge variant="primary">Preset ${this.master.preset}</sl-badge>
                         <span style="flex:1;"></span>
-                        <sl-badge variant="primary" style="">${this.master.source}</sl-badge>
+                        <sl-badge variant="success" style="">${this.master.source}</sl-badge>
                     </div>
                 </sl-card>
                 <sl-card class="card-header"
