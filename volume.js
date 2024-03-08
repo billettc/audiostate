@@ -3,16 +3,16 @@ import {LitElement, html, css} from "https://cdn.jsdelivr.net/gh/lit/dist@3/core
 const gaugeOptions = {
     chart: {
         type: 'solidgauge',
-        height: 200,
-        width: 200,
-        backgroundColor: 'var(--sl-color-neutral-100)',
+        height: '150px',
+        width: 240,
+        backgroundColor: 'var(--sl-panel-background-color)',
 
     },
 
     title: null,
 
     pane: {
-        // center: ['50%', '85%'],
+        center: ['50%', '55%'],
         size: '100%',
         startAngle: -135,
         endAngle: 135,
@@ -46,7 +46,7 @@ const gaugeOptions = {
             y: 30
         },
         labels: {
-            y: 16
+            y: 160
         }
     },
 

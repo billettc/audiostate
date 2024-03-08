@@ -48,8 +48,8 @@ class RoonState extends LitElement {
                 <sl-card class="card-image">
                     <img alt=""
                          src="http://192.168.1.32:9070/?image_key=${this.zone.now_playing.image_key}"
-                         height="400px"
-                         width="400px"/>
+                         height="300px"
+                         width="300px"/>
                 </sl-card>
                 <div style="display: flex; flex-direction: column; flex-grow: 1; padding-left: var(--sl-spacing-medium)">
                     <div style="display: flex; flex-direction: row; flex-grow: 1;">
@@ -67,7 +67,7 @@ class RoonState extends LitElement {
                         <sl-card>
                             ${this.zone.now_playing.artist_image_keys.length > 0?
                                     html`
-                            <img alt="" style="object-fit: contain;" width="450px"
+                            <img alt="" style="object-fit: contain;" width="350px"
                                  src="http://192.168.1.32:9070/?image_key=${this.zone.now_playing.artist_image_keys[0]}"
                             />
                             `:html``}
@@ -80,7 +80,16 @@ class RoonState extends LitElement {
                             <sl-badge variant="${this.zone.state === "playing" ? "success" : "primary"}"
                                       style="padding-left: var(--sl-spacing-large)">${this.zone.state}
                             </sl-badge>
-                            <sl-progress-bar value=${(this.zone.now_playing.seek_position/this.zone.now_playing.length)*100} style="--height: 6px; flex: 1;padding-left: var(--sl-spacing-large)"></sl-progress-bar>
+                            <div style="flex: 1; padding-left: var(--sl-spacing-large)">
+                                <div style="display: flex; flex-grow: 1; ">
+                                    <label style="flex: 1">${fancyTimeFormat(this.zone.now_playing.seek_position)}</label>
+                                    <label>${fancyTimeFormat(this.zone.now_playing.length)}</label>
+                                </div>
+                                <sl-progress-bar 
+                                        value=${(this.zone.now_playing.seek_position/this.zone.now_playing.length)*100} 
+                                        style="--height: 6px; padding-top: 3px">
+                                </sl-progress-bar>
+                            </div>
                         </div>
                     </sl-card>
                 </div>
@@ -94,3 +103,22 @@ class RoonState extends LitElement {
 }
 
 customElements.define('as-roon', RoonState);
+
+function fancyTimeFormat(duration) {
+    // Hours, minutes and seconds
+    const hrs = ~~(duration / 3600);
+    const mins = ~~((duration % 3600) / 60);
+    const secs = ~~duration % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    let ret = "";
+
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+
+    return ret;
+}

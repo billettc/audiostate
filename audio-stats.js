@@ -51,7 +51,8 @@ export class AudioStats extends LitElement {
             preset: 0,
             source: "-",
             volume: -120,
-            mute: false
+            mute: false,
+            dirac: false
         }
 
         this.inputOptions = {
@@ -67,29 +68,27 @@ export class AudioStats extends LitElement {
                     ]
                 },
                 plotBackgroundImage: null,
-                height: 200,
-                backgroundColor: 'var(--sl-color-neutral-100)',
+                height: '165px',
+                width: 525,
+                backgroundColor: 'var(--sl-panel-background-color)',
             },
             credits: {
                 enabled: false
             },
 
-            title: {
-                text: 'Input Channels Levels',
-                style: {color: 'var(--sl-color-neutral-700)'}
-            },
+            title: null,
 
             pane: [{
                 startAngle: -45,
                 endAngle: 45,
                 background: null,
-                center: ['25%', '145%'],
+                center: [125, '145%'],
                 size: 300
             }, {
                 startAngle: -45,
                 endAngle: 45,
                 background: null,
-                center: ['75%', '145%'],
+                center: [375, '145%'],
                 size: 300
             }],
 
@@ -145,7 +144,6 @@ export class AudioStats extends LitElement {
                     }
                 }
             },
-
             series: [{
                 name: 'Left',
                 data: [-20],
@@ -169,35 +167,33 @@ export class AudioStats extends LitElement {
                     ]
                 },
                 plotBackgroundImage: null,
-                backgroundColor: 'var(--sl-color-neutral-100)',
-                height: 200,
+                backgroundColor: 'var(--sl-panel-background-color)',
+                height: 165,
+                width: 775,
             },
             credits: {
                 enabled: false
             },
 
-            title: {
-                text: 'Output Channels Levels',
-                style: {color: 'var(--sl-color-neutral-700)'}
-            },
+            title: null,
 
             pane: [{
                 startAngle: -45,
                 endAngle: 45,
                 background: null,
-                center: ['20%', '145%'],
+                center: [125, '145%'],
                 size: 300
             }, {
                 startAngle: -45,
                 endAngle: 45,
                 background: null,
-                center: ['50%', '145%'],
+                center: [375, '145%'],
                 size: 300
             }, {
                 startAngle: -45,
                 endAngle: 45,
                 background: null,
-                center: ['80%', '145%'],
+                center: [625, '145%'],
                 size: 300
             }],
 
@@ -293,36 +289,55 @@ export class AudioStats extends LitElement {
 
     }
 
-
-    // Render the UI as a function of component state
     render() {
         return html`
 
             <as-roon></as-roon>
-            
-            <sl-divider></sl-divider>
-            <as-volume-meter level=${this.master.volume}></as-volume-meter>
-            <sl-divider></sl-divider>
-            
-            <div style="display: flex; flex: 1; flex-direction: row; align-items: end;">
-                <as-vu-meter
-                        levels=${JSON.stringify([
-                            this.input_levels[1],
-                            this.input_levels[0]
-                        ])}
-                        style="flex: 1.25"
-                        options=${JSON.stringify(this.inputOptions)}>
-                </as-vu-meter>
-                <as-vu-meter
-                        levels=${JSON.stringify([
-                            this.output_levels[1],
-                            this.output_levels[0],
-                            this.output_levels[2]
-                        ])}
-                        style="flex: 2"
-                        options=${JSON.stringify(this.outputOptions)}>
-                </as-vu-meter>
+
+            <div style="display: flex; flex-direction: row; align-items: end; padding-top: var(--sl-spacing-medium);">
+                <sl-card style="flex: 1;font-size: var(--sl-font-size-large)">
+                    <div style="display: flex">
+                        <sl-badge variant="${this.master.dirac ? "success" : "neutral"}">Dirac</sl-badge>
+                        <span style="flex:1;"></span>
+                        <sl-badge variant="${this.master.mute ? "success" : "neutral"}">mute</sl-badge>
+                    </div>
+                    <as-volume-meter style="padding-top: 20px" level=${this.master.volume}></as-volume-meter>
+                    <div style="display: flex">
+                        <sl-badge variant="primary">Preset ${this.master.preset}</sl-badge>
+                        <span style="flex:1;"></span>
+                        <sl-badge variant="primary" style="">${this.master.source}</sl-badge>
+                    </div>
+                </sl-card>
+                <sl-card class="card-header"
+                         style="padding-left: var(--sl-spacing-medium);">
+                    <div slot="header">
+                        Input Levels (dBFS)
+                    </div>
+                    <as-vu-meter
+                            levels=${JSON.stringify([
+                                this.input_levels[1],
+                                this.input_levels[0]
+                            ])}
+
+                            options=${JSON.stringify(this.inputOptions)}>
+                    </as-vu-meter>
+                </sl-card>
+                <sl-card class="card-header"
+                         style="padding-left: var(--sl-spacing-medium)">
+                    <div slot="header">
+                        Output Levels (dBFS)
+                    </div>
+                    <as-vu-meter
+                            levels=${JSON.stringify([
+                                this.output_levels[1],
+                                this.output_levels[0],
+                                this.output_levels[2]
+                            ])}
+                            options=${JSON.stringify(this.outputOptions)}>
+                    </as-vu-meter>
+                </sl-card>
             </div>
+
         `;
     }
 
@@ -335,6 +350,7 @@ export class AudioStats extends LitElement {
 //     "source": "Toslink",
 //     "volume": -8,
 //     "mute": false
+//        "dirac": true
 //   }
 
                 this.lastEvent = JSON.parse(event.data)
@@ -344,10 +360,21 @@ export class AudioStats extends LitElement {
                 if (this.lastEvent.output_levels) {
                     this.output_levels = this.lastEvent.output_levels
                 }
-                if (this.lastEvent.master.volume) {
-                    this.master = this.lastEvent.master
+                if ("volume" in this.lastEvent.master) {
+                    this.master.volume = this.lastEvent.master.volume
                 }
-
+                if ("mute" in this.lastEvent.master) {
+                    this.master.mute = this.lastEvent.master.mute
+                }
+                if ("dirac" in this.lastEvent.master) {
+                    this.master.dirac = this.lastEvent.master.dirac
+                }
+                if ("preset" in this.lastEvent.master) {
+                    this.master.preset = this.lastEvent.master.preset + 1
+                }
+                if ("source" in this.lastEvent.master) {
+                    this.master.source = this.lastEvent.master.source
+                }
             }
         )
     }
