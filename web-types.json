@@ -1,0 +1,17 @@
+{
+  "$schema": "http://json.schemastore.org/web-types",
+  "name": "@audiosate/audiosate",
+  "version": "2.4.0",
+  "description-markup": "markdown",
+  "contributions": {
+    "html": {
+      "elements": [
+        {
+          "name": "audio-stats",
+          "description": "audio-stats",
+          "doc-url": ""
+        }
+      ]
+    }
+  }
+}

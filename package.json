@@ -1,0 +1,6 @@
+{
+  "web-types": [
+    "shoelace/web-types.json",
+    "web-types.json"
+  ]
+}

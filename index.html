@@ -9,43 +9,21 @@
     <script src="https://code.highcharts.com/modules/exporting.js"></script>
     <script src="https://code.highcharts.com/modules/export-data.js"></script>
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
+    <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
 
     <script type="module" src="audio-stats.js"></script>
     <script type="module" src="vu-meter.js"></script>
-    <script src="./vue/vue.js"></script>
-
-    <style>
-        .highcharts-background {
-            fill: var(--sl-color-neutral-200);
-        }
-    </style>
+    <script type="module" src="volume.js"></script>
+    <script type="module" src="roon.js"></script>
 
 </head>
 
 
 <body class="sl-theme-dark">
-<div class="sl-theme-dark" style="display: flex; flex: 1; flex-direction: column;">
-    <div style="width: 100%;">
+<div class="sl-theme-dark"
+     style="display: flex;  flex-direction: column; width: 1700px; height:1000px; margin: auto;">
         <audio-stats class="sl-theme-dark" name="toto"></audio-stats>
-        <div style="display: flex; flex-direction: row; margin: var(--sl-spacing-medium)">
-            <div style="margin: var(--sl-spacing-medium)">
-                <img alt="" src="./images/ab6761610000e5eb7c1c2fcf5a73dbfa60a40a18.jpeg" height="600px" width="600px"/>
-            </div>
-            <div style="flex:1; display: flex; flex-direction: column; ">
-                <div style="flex:1; display: flex; flex-direction: column; ">
-                    <h1>King Crimson</h1>
-                    <h2>In the court of the Crimson King</h2>
-                </div>
-            </div>
-        </div>
-
-        <sl-divider></sl-divider>
-        <div style="display: flex; flex: 1; flex-direction: row; align-items: end;">
-            <span id="container" style="flex: 1.25"></span>
-            <span id="container2" style="flex:2"></span>
-        </div>
-    </div>
 </div>
 </body>
 </html>
