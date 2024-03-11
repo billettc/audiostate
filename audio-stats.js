@@ -337,7 +337,9 @@ export class AudioStats extends LitElement {
                     </as-vu-meter>
                 </sl-card>
             </div>
-            <as-audio-visualiser></as-audio-visualiser>
+            <div style="width: 100%; background-color: aqua">
+                <as-audio-visualiser></as-audio-visualiser>
+            </div>
         `;
     }
 
