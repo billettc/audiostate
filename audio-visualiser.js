@@ -39,6 +39,7 @@ class AudioVisualiser extends LitElement {
             this,
             {
                 source: this.shadowRoot.getElementById('audio'),
+
                 "alphaBars": false,
                 "ansiBands": false,
                 "barSpace": 0.25,
@@ -48,8 +49,8 @@ class AudioVisualiser extends LitElement {
                 "fftSize": 8192,
                 "fillAlpha": 1,
                 "frequencyScale": "log",
-                "gradient": "prism",
-                "ledBars": false,
+                "gradient": "steelblue",
+                "ledBars": true,
                 "linearAmplitude": true,
                 "linearBoost": 1.6,
                 "lineWidth": 0,
@@ -57,7 +58,7 @@ class AudioVisualiser extends LitElement {
                 "lumiBars": false,
                 "maxDecibels": -25,
                 "maxFPS": 0,
-                "maxFreq": 16000,
+                "maxFreq": 20000,
                 "minDecibels": -85,
                 "minFreq": 30,
                 "mirror": 0,
@@ -69,12 +70,12 @@ class AudioVisualiser extends LitElement {
                 "radial": false,
                 "radialInvert": false,
                 "radius": 0.3,
-                "reflexAlpha": "0.2",
-                "reflexBright": "0.8",
+                "reflexAlpha": "0.5",
+                "reflexBright": "0.1",
                 "reflexFit": true,
-                "reflexRatio": 0.5,
+                "reflexRatio": 0.3,
                 "roundBars": true,
-                "showBgColor": false,
+                "showBgColor": true,
                 "showFPS": false,
                 "showPeaks": false,
                 "showScaleX": false,
@@ -86,6 +87,7 @@ class AudioVisualiser extends LitElement {
                 "useCanvas": true,
                 "volume": 1,
                 "weightingFilter": "D"
+
             }
         );
 
@@ -115,7 +117,7 @@ class AudioVisualiser extends LitElement {
             constraints = {audio: {deviceId: deviceID}};
         }
         navigator.mediaDevices.getUserMedia(constraints)
-        // navigator.mediaDevices.getUserMedia({audio: {deviceId: '22bff13b393ec65e125cf898cc0f05ffcb43577c6425474e1958c6d9b0ee02d0'}})
+            // navigator.mediaDevices.getUserMedia({audio: {deviceId: '22bff13b393ec65e125cf898cc0f05ffcb43577c6425474e1958c6d9b0ee02d0'}})
             .then(stream => {
                 this.micStream = this.audioMotion.audioCtx.createMediaStreamSource(stream);
                 this.toggleMute(true); // mute the speakers to avoid feedback loop from the microphone
