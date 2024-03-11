@@ -99,22 +99,24 @@ class AudioVisualiser extends LitElement {
             await navigator.mediaDevices
                 .enumerateDevices()
                 .then((devices) => {
-                    devices.forEach((device) => {
+                    for (const device of devices) {
                         console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
                         //check if device label contains 'Pontus II 12th'
-                        if (device.label.includes('Umik-1')) {
+                        if (device.label.includes('Umik')) {
                             deviceID = device.deviceId;
+                            break
                         }
-                    });
+                    }
                 })
                 .catch((err) => {
                     console.error(`${err.name}: ${err.message}`);
                 });
         }
 
+        console.log("Using deviceID = " + deviceID)
         let constraints = {audio: true};
         if (deviceID !== '') {
-            console.log("Using deviceID = " + deviceID)
+            console.log("Setting deviceID to " + deviceID + " for microphone.");
             constraints = {audio: {deviceId: deviceID}};
         }
         navigator.mediaDevices.getUserMedia(constraints)
