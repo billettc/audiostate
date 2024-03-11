@@ -102,7 +102,7 @@ class AudioVisualiser extends LitElement {
                     devices.forEach((device) => {
                         console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
                         //check if device label contains 'Pontus II 12th'
-                        if (device.label.includes('Pontus II 12th')) {
+                        if (device.label.includes('Umik-1')) {
                             deviceID = device.deviceId;
                         }
                     });
