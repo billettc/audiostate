@@ -114,6 +114,7 @@ class AudioVisualiser extends LitElement {
 
         let constraints = {audio: true};
         if (deviceID !== '') {
+            console.log("Using deviceID = " + deviceID)
             constraints = {audio: {deviceId: deviceID}};
         }
         navigator.mediaDevices.getUserMedia(constraints)
