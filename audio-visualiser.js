@@ -39,7 +39,6 @@ class AudioVisualiser extends LitElement {
             this,
             {
                 source: this.shadowRoot.getElementById('audio'),
-
                 "alphaBars": false,
                 "ansiBands": false,
                 "barSpace": 0.25,
@@ -49,8 +48,8 @@ class AudioVisualiser extends LitElement {
                 "fftSize": 8192,
                 "fillAlpha": 1,
                 "frequencyScale": "log",
-                "gradient": "steelblue",
-                "ledBars": true,
+                "gradient": "prism",
+                "ledBars": false,
                 "linearAmplitude": true,
                 "linearBoost": 1.6,
                 "lineWidth": 0,
@@ -58,7 +57,7 @@ class AudioVisualiser extends LitElement {
                 "lumiBars": false,
                 "maxDecibels": -25,
                 "maxFPS": 0,
-                "maxFreq": 20000,
+                "maxFreq": 16000,
                 "minDecibels": -85,
                 "minFreq": 30,
                 "mirror": 0,
@@ -70,12 +69,12 @@ class AudioVisualiser extends LitElement {
                 "radial": false,
                 "radialInvert": false,
                 "radius": 0.3,
-                "reflexAlpha": "0.5",
-                "reflexBright": "0.1",
+                "reflexAlpha": "0.2",
+                "reflexBright": "0.8",
                 "reflexFit": true,
-                "reflexRatio": 0.3,
+                "reflexRatio": 0.5,
                 "roundBars": true,
-                "showBgColor": true,
+                "showBgColor": false,
                 "showFPS": false,
                 "showPeaks": false,
                 "showScaleX": false,
@@ -87,7 +86,6 @@ class AudioVisualiser extends LitElement {
                 "useCanvas": true,
                 "volume": 1,
                 "weightingFilter": "D"
-
             }
         );
 
@@ -99,30 +97,31 @@ class AudioVisualiser extends LitElement {
             await navigator.mediaDevices
                 .enumerateDevices()
                 .then((devices) => {
-                    for (const device of devices) {
+                    devices.forEach((device) => {
                         console.log(`${device.kind}: ${device.label} id = ${device.deviceId}`);
                         //check if device label contains 'Pontus II 12th'
-                        if (device.label.includes('Umik')) {
+                        if (device.label === 'Umik-1  Gain: 18dB (2752:0007)') {
                             deviceID = device.deviceId;
-                            break
                         }
-                    }
+                    });
                 })
                 .catch((err) => {
                     console.error(`${err.name}: ${err.message}`);
                 });
         }
 
-        console.log("Using deviceID = " + deviceID)
-        let constraints = {audio: true};
-        if (deviceID !== '') {
-            console.log("Setting deviceID to " + deviceID + " for microphone.");
-            constraints = {audio: {deviceId: deviceID}};
-        }
-        navigator.mediaDevices.getUserMedia(constraints)
-            // navigator.mediaDevices.getUserMedia({audio: {deviceId: '22bff13b393ec65e125cf898cc0f05ffcb43577c6425474e1958c6d9b0ee02d0'}})
+        let constrains = {audio: true};
+        // if (deviceID !== '') {
+        //     constrains = {audio: {deviceId: deviceID}}
+        // }
+
+        console.log('constrains', constrains);
+
+        navigator.mediaDevices.getUserMedia(constrains)
+            // navigator.mediaDevices.getUserMedia()
             .then(stream => {
                 this.micStream = this.audioMotion.audioCtx.createMediaStreamSource(stream);
+                console.log("Got microphone stream", this.micStream);
                 this.toggleMute(true); // mute the speakers to avoid feedback loop from the microphone
                 this.audioMotion.connectInput(this.micStream);
                 this.audioMotion.start();
