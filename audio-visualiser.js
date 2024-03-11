@@ -32,7 +32,7 @@ class AudioVisualiser extends LitElement {
         }
     }
 
-    connectedCallback() {
+    async connectedCallback() {
         super.connectedCallback();
 
         this.audioMotion = new AudioMotionAnalyzer(
@@ -96,7 +96,7 @@ class AudioVisualiser extends LitElement {
             console.log("enumerateDevices() not supported.");
         } else {
             // List cameras and microphones.
-            navigator.mediaDevices
+            await navigator.mediaDevices
                 .enumerateDevices()
                 .then((devices) => {
                     devices.forEach((device) => {
