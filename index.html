@@ -11,12 +11,20 @@
     <script src="https://code.highcharts.com/modules/accessibility.js"></script>
     <script src="https://code.highcharts.com/modules/solid-gauge.js"></script>
 
+    <script src="https://unpkg.com/rockiot-ui@latest/build/rockiot.ui.min.js"></script>
+<!--    <script src="https://unpkg.com/rockiot-ui@latest/build/rockiot.gauge.linear.js"></script>-->
+    <script src="/rockiot-ui/rockiot.gauge.linear.js"></script>
 
-    <script type="module" src="audio-stats.js"></script>
-    <script type="module" src="vu-meter.js"></script>
-    <script type="module" src="volume.js"></script>
-    <script type="module" src="roon.js"></script>
-    <script type="module" src="audio-visualiser.js"></script>
+
+    <script src="/utils/kalman.js"></script>
+    <script src="/data/soundmeter.js"></script>
+
+    <script type="module" src="components/audio-stats.js"></script>
+    <script type="module" src="components/vu-meter.js"></script>
+    <script type="module" src="components/volume.js"></script>
+    <script type="module" src="components/roon.js"></script>
+    <script type="module" src="components/audio-visualiser.js"></script>
+    <script type="module" src="components/decibel-meter.js"></script>
 
     <script type="module">
 
@@ -27,7 +35,7 @@
 <body class="sl-theme-dark">
 <div class="sl-theme-dark"
      style="display: flex;  flex-direction: column; width: 1700px; height:1000px; margin: auto;">
-    <audio-stats class="sl-theme-dark" name="toto" style="padding-top: 100px"></audio-stats>
+    <as-audio-stats class="sl-theme-dark" name="toto" style="padding-top: 100px"></as-audio-stats>
 </div>
 </body>
 </html>

@@ -7,7 +7,7 @@
     "html": {
       "elements": [
         {
-          "name": "audio-stats",
+          "name": "as-audio-stats",
           "description": "audio-stats",
           "doc-url": ""
         }

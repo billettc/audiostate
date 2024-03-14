@@ -1,20 +1,6 @@
 import {LitElement, html, css} from 'https://cdn.jsdelivr.net/gh/lit/dist@3/core/lit-core.min.js';
-
-export class StatsCapture {
-    static properties = {
-        ws: {}
-    }
-
-    constructor() {
-        this.ws = new WebSocket("ws://192.168.1.32:5380/devices/0?levels=true");
-    }
-
-    start(messageCallback) {
-        this.ws.onmessage = function (e) {
-            messageCallback(e);
-        };
-    }
-}
+import {MiniDSP} from "/data/minidsp.js";
+import {Roon} from "../data/roon.js";
 
 let plotBands = [{
     from: 0,
@@ -25,12 +11,13 @@ let plotBands = [{
 }];
 
 export class AudioStats extends LitElement {
+    miniDSP = null;
     static properties = {
         lastEvent: {},
         input_levels: {type: Array},
         output_levels: {type: Array},
         master: {type: Object},
-        statsCapture: {type: StatsCapture},
+        zone: {type: Object}
     };
 
 
@@ -44,7 +31,8 @@ export class AudioStats extends LitElement {
     constructor() {
         super();
         // Declare reactive properties
-        this.statsCapture = new StatsCapture();
+        this.roon = new Roon();
+        this.miniDSP = new MiniDSP();
         this.input_levels = [0, 0]
         this.output_levels = [0, 0, 0]
         this.master = {
@@ -54,6 +42,7 @@ export class AudioStats extends LitElement {
             mute: false,
             dirac: false
         }
+        this.zone = undefined
 
         this.inputOptions = {
             chart: {
@@ -292,21 +281,35 @@ export class AudioStats extends LitElement {
     render() {
         return html`
 
-            <as-roon></as-roon>
+            <as-roon zone="${JSON.stringify(this.zone)}"></as-roon>
+            
+            ${this.zone ? html`
+                <sl-card style="padding-top: var(--sl-spacing-medium); width: 100%">
+                    <div style="display: flex; align-items: center;font-size: var(--sl-font-size-large)">
+                        <label style="font-size: var(--sl-font-size-x-large)">${this.zone.display_name}</label>
+                        <sl-badge variant="${this.zone.state === "playing" ? "success" : "primary"}" style="padding-left: var(--sl-spacing-large)">${this.zone.state}</sl-badge>
 
+                        <div style="flex: 1; padding-left: var(--sl-spacing-large)">
+                            <div style="display: flex; flex-grow: 1; ">
+                                <label style="flex: 1">${fancyTimeFormat(this.zone.now_playing.seek_position)}</label>
+                                <label>${fancyTimeFormat(this.zone.now_playing.length)}</label>
+                            </div>
+                            <sl-progress-bar
+                                    value=${(this.zone.now_playing.seek_position / this.zone.now_playing.length) * 100}
+                                    style="--height: 6px; padding-top: 3px">
+                            </sl-progress-bar>
+                        </div>
+                        <sl-badge variant="${this.master.dirac ? "success" : "neutral"}" style="padding-left: var(--sl-spacing-large)">Dirac</sl-badge>
+                        <sl-badge variant="primary">Preset ${this.master.preset}</sl-badge>
+                        <sl-badge variant="success" style="">${this.master.source}</sl-badge>
+                        <sl-badge variant="${this.master.mute ? "success" : "neutral"}">mute</sl-badge>
+
+                    </div>
+                </sl-card>
+            ` : html``}
             <div style="display: flex; flex-direction: row; align-items: end; padding-top: var(--sl-spacing-medium);">
                 <sl-card style="flex: 1;font-size: var(--sl-font-size-large)">
-                    <div style="display: flex">
-                        <sl-badge variant="${this.master.dirac ? "success" : "neutral"}">Dirac</sl-badge>
-                        <span style="flex:1;"></span>
-                        <sl-badge variant="${this.master.mute ? "success" : "neutral"}">mute</sl-badge>
-                    </div>
                     <as-volume-meter style="padding-top: 20px" level=${this.master.volume}></as-volume-meter>
-                    <div style="display: flex">
-                        <sl-badge variant="primary">Preset ${this.master.preset}</sl-badge>
-                        <span style="flex:1;"></span>
-                        <sl-badge variant="success" style="">${this.master.source}</sl-badge>
-                    </div>
                 </sl-card>
                 <sl-card class="card-header"
                          style="padding-left: var(--sl-spacing-medium);">
@@ -337,8 +340,10 @@ export class AudioStats extends LitElement {
                     </as-vu-meter>
                 </sl-card>
             </div>
-            <div style="width: 100%; background-color: aqua">
-                <as-audio-visualiser></as-audio-visualiser>
+<!--            <div style="width: 100%; background-color: aqua">-->
+            <div style="display: flex;">
+                <as-audio-visualiser style="flex: 2"></as-audio-visualiser>
+                <as-decibel-meter ></as-decibel-meter>
             </div>
         `;
     }
@@ -346,14 +351,7 @@ export class AudioStats extends LitElement {
 
     connectedCallback() {
         super.connectedCallback()
-        this.statsCapture.start((event) => {
-//  "master": {
-//     "preset": 0,
-//     "source": "Toslink",
-//     "volume": -8,
-//     "mute": false
-//        "dirac": true
-//   }
+        this.miniDSP.start((event) => {
 
                 this.lastEvent = JSON.parse(event.data)
                 if (this.lastEvent.input_levels) {
@@ -379,7 +377,37 @@ export class AudioStats extends LitElement {
                 }
             }
         )
+        this.roon.start((event) => {
+            const zones = JSON.parse(event.data);
+            for (const property in zones) {
+                const z = zones[property];
+                if (z.display_name === "Pontus II 12th") {
+                    this.zone = z;
+                }
+            }
+
+        });
+
     }
 }
 
-customElements.define('audio-stats', AudioStats);
+customElements.define('as-audio-stats', AudioStats);
+
+function fancyTimeFormat(duration) {
+    // Hours, minutes and seconds
+    const hrs = ~~(duration / 3600);
+    const mins = ~~((duration % 3600) / 60);
+    const secs = ~~duration % 60;
+
+    // Output like "1:01" or "4:03:59" or "123:03:59"
+    let ret = "";
+
+    if (hrs > 0) {
+        ret += "" + hrs + ":" + (mins < 10 ? "0" : "");
+    }
+
+    ret += "" + mins + ":" + (secs < 10 ? "0" : "");
+    ret += "" + secs;
+
+    return ret;
+}
