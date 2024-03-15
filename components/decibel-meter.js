@@ -93,6 +93,7 @@ class DecibelMeter extends LitElement {
     render() {
 
         return html`
+            
             <rockiot-ui
                     id="linear_1"
                     type="gauge"
