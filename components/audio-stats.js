@@ -51,10 +51,10 @@ export class AudioStats extends LitElement {
                 plotBackgroundColor: {
                     linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
                     stops: [
-                        [0.0, '#0a3e83'],
-                        [0.3, '#1466d1'],
-                        [0.75, '#4993f3'],
-                        [1, '#73a9f1'],
+                        [0.0, '#276fcd'],
+                        [0.1, '#4993f3'],
+                        [0.6, '#73a9f1'],
+                        [1, '#aec7e8'],
                     ]
                 },
                 plotBackgroundImage: null,
@@ -156,10 +156,10 @@ export class AudioStats extends LitElement {
                 plotBackgroundColor: {
                     linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
                     stops: [
-                        [0.0, '#0a3e83'],
-                        [0.3, '#1466d1'],
-                        [0.75, '#4993f3'],
-                        [1, '#73a9f1'],
+                        [0.0, '#276fcd'],
+                        [0.1, '#4993f3'],
+                        [0.6, '#73a9f1'],
+                        [1, '#aec7e8'],
                     ]
                 },
                 plotBackgroundImage: null,
