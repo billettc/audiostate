@@ -5,7 +5,7 @@ import {Roon} from "../data/roon.js";
 let plotBands = [{
     from: 0,
     to: 20,
-    color: '#C02316',
+    color: '#70221c',
     innerRadius: '100%',
     outerRadius: '105%'
 }];
@@ -51,9 +51,10 @@ export class AudioStats extends LitElement {
                 plotBackgroundColor: {
                     linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
                     stops: [
-                        [0, '#FFF4C6'],
-                        [0.3, '#FFFFFF'],
-                        [1, '#FFF4C6']
+                        [0.0, '#0a3e83'],
+                        [0.3, '#1466d1'],
+                        [0.75, '#4993f3'],
+                        [1, '#73a9f1'],
                     ]
                 },
                 plotBackgroundImage: null,
@@ -95,6 +96,8 @@ export class AudioStats extends LitElement {
                 tickPixelInterval: 50,
                 minorTickPosition: 'outside',
                 tickPosition: 'outside',
+                tickColor: '#000000',
+                minorTickColor: '#000000',
                 labels: {
                     rotation: 'auto',
                     distance: 20
@@ -102,7 +105,7 @@ export class AudioStats extends LitElement {
                 plotBands: plotBands,
                 pane: 0,
                 title: {
-                    text: 'dBFS<br/><span style="font-size:16px">Left</span>',
+                    text: '<div style="color: black">dBFS<br/><span style="font-size:16px;" >Left</span></div>',
                     y: -40
                 }
             }, {
@@ -111,6 +114,9 @@ export class AudioStats extends LitElement {
                 tickPixelInterval: 50,
                 minorTickPosition: 'outside',
                 tickPosition: 'outside',
+                tickColor: '#000000',
+                minorTickColor: '#000000',
+
                 labels: {
                     rotation: 'auto',
                     distance: 20
@@ -118,7 +124,7 @@ export class AudioStats extends LitElement {
                 plotBands: plotBands,
                 pane: 1,
                 title: {
-                    text: 'dBFS<br/><span style="font-size:16px">Right</span>',
+                    text: '<div style="color: black">dBFS<br/><span style="font-size:16px;" >Right</span></div>',
                     y: -40
                 }
             }],
@@ -150,9 +156,10 @@ export class AudioStats extends LitElement {
                 plotBackgroundColor: {
                     linearGradient: {x1: 0, y1: 0, x2: 0, y2: 1},
                     stops: [
-                        [0, '#FFF4C6'],
-                        [0.3, '#FFFFFF'],
-                        [1, '#FFF4C6']
+                        [0.0, '#0a3e83'],
+                        [0.3, '#1466d1'],
+                        [0.75, '#4993f3'],
+                        [1, '#73a9f1'],
                     ]
                 },
                 plotBackgroundImage: null,
@@ -200,6 +207,9 @@ export class AudioStats extends LitElement {
                 tickPixelInterval: 50,
                 minorTickPosition: 'outside',
                 tickPosition: 'outside',
+                tickColor: '#000000',
+                minorTickColor: '#000000',
+
                 labels: {
                     rotation: 'auto',
                     distance: 20
@@ -207,7 +217,7 @@ export class AudioStats extends LitElement {
                 plotBands: plotBands,
                 pane: 0,
                 title: {
-                    text: 'dBFS<br/><span style="font-size:16px">Left</span>',
+                    text: '<div style="color: black">dBFS<br/><span style="font-size:16px;" >Left</span></div>',
                     y: -40
                 }
             }, {
@@ -216,6 +226,9 @@ export class AudioStats extends LitElement {
                 tickPixelInterval: 50,
                 minorTickPosition: 'outside',
                 tickPosition: 'outside',
+                tickColor: '#000000',
+                minorTickColor: '#000000',
+
                 labels: {
                     rotation: 'auto',
                     distance: 20
@@ -223,7 +236,7 @@ export class AudioStats extends LitElement {
                 plotBands: plotBands,
                 pane: 1,
                 title: {
-                    text: 'dBFS<br/><span style="font-size:16px">Right</span>',
+                    text: '<div style="color: black">dBFS<br/><span style="font-size:16px;" >Right</span></div>',
                     y: -40
                 }
             }, {
@@ -232,6 +245,9 @@ export class AudioStats extends LitElement {
                 tickPixelInterval: 50,
                 minorTickPosition: 'outside',
                 tickPosition: 'outside',
+                tickColor: '#000000',
+                minorTickColor: '#000000',
+
                 labels: {
                     rotation: 'auto',
                     distance: 20
@@ -239,7 +255,8 @@ export class AudioStats extends LitElement {
                 plotBands: plotBands,
                 pane: 2,
                 title: {
-                    text: 'dBFS<br/><span style="font-size:16px">Subwoofer</span>',
+                    text: '<div style="color: black">dBFS<br/><span style="font-size:16px;" >Subwoofer</span></div>',
+
                     y: -40
                 }
             }],
